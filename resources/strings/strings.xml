@@ -1,3 +1,6 @@
 <strings>
-    <string id="AppName">flashcards</string>
+    <string id="AppName">Flashcards</string>
+    <string id="Deck">Deck</string>
+    <string id="CardFront">Card Front</string>
+    <string id="CardBack">Card Back</string>
 </strings>
