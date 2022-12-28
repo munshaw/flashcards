@@ -1,3 +1,0 @@
-<layout id="MainLayout">
-    <text-area text="\nMy watch face and some text that will be translated" id="face" y="15" width="fill" height="fill" />
-</layout>
