@@ -5,6 +5,8 @@ import Toybox.Application.Properties;
 import Toybox.Math;
 
 class FlashcardsView extends WatchUi.View {
+    private const _TEXT_AREA_INCREMENT = 5;
+
     private var _textArea;
     private var _textAreaIndex;
 
@@ -65,6 +67,20 @@ class FlashcardsView extends WatchUi.View {
         }
         else {
             _textArea.setText(textToDisplay.substring(_textAreaIndex, null));
+        }
+    }
+
+    function scrollDown() as Void {
+        var newIndex = _textAreaIndex + _TEXT_AREA_INCREMENT;
+        if (newIndex < _cardFront.length()) {
+            _textAreaIndex = newIndex;
+        }
+    }
+
+    function scrollUp() as Void {
+        var newIndex = _textAreaIndex - _TEXT_AREA_INCREMENT;
+        if (newIndex >= 0) {
+            _textAreaIndex = newIndex;
         }
     }
 
