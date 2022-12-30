@@ -43,6 +43,7 @@ class flashcardsView extends WatchUi.View {
     function loadRandomCard() as Void {
         var deck = Properties.getValue("deck") as Array<Dictionary<String, String>>;
         _hasNoData = deck.size() == 0;
+        _textAreaIndex = 0;
         if (!_hasNoData) {
             _cardIndex = Math.rand() % deck.size();
             _cardFront = deck[_cardIndex]["front"];
@@ -51,11 +52,20 @@ class flashcardsView extends WatchUi.View {
     }
 
     function setDisplayText() as Void {
+        var textToDisplay;
         if (_hasNoData) {
-            _textArea.setText(Rez.Strings.NoData);
+            textToDisplay = Rez.Strings.NoData;
         }
         else {
-            _textArea.setText(_cardFront);
+            textToDisplay = _cardFront;
+        }
+
+        if (_textAreaIndex == 0) {
+            _textArea.setText("\n" + textToDisplay);
+        }
+        else {
+            var ss = textToDisplay.substring(_textAreaIndex, null);
+            _textArea.setText(ss);
         }
     }
 
