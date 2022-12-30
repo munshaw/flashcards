@@ -78,12 +78,10 @@ class FlashcardsView extends WatchUi.View {
         }
     }
 
-    function nextState() as Boolean {
+    function nextState() as Void {
         if (_state == FrontState) {
             setState(BackState);
-            return true;
         }
-        return false;
     }
 
     function previousState() as Boolean {
