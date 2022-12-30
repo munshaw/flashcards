@@ -49,29 +49,38 @@ class FlashcardsView extends WatchUi.View {
         loadRandomCard();
     }
 
+    function setState(state) as Void {
+        _state = state;
+        _textAreaIndex = 0;
+        switch (state) {
+            case NoDataState:
+                _textAreaText = Rez.Strings.NoData;
+                break;
+            case FrontState:
+                _textAreaText = _cardFront;
+                break;
+            case BackState:
+                _textAreaText = _cardBack;
+        } 
+    }
+
     function loadRandomCard() as Void {
         var deck = Properties.getValue("deck") as Array<Dictionary<String, String>>;
 
-        _textAreaIndex = 0;
-        _state = FrontState;
-
         if (deck.size() == 0) {
-            _state = NoDataState;
+            setState(NoDataState);
         }
         else {
-            _state = FrontState;
             _cardIndex = Math.rand() % deck.size();
             _cardFront = deck[_cardIndex]["front"];
             _cardBack = deck[_cardIndex]["back"];
-            _textAreaText = _cardFront;
+            setState(FrontState);
         }
     }
 
     function nextState() as Boolean {
         if (_state == FrontState) {
-            _state = BackState;
-            _textAreaText = _cardBack;
-            _textAreaIndex = 0;
+            setState(BackState);
             return true;
         }
         return false;
@@ -79,28 +88,18 @@ class FlashcardsView extends WatchUi.View {
 
     function previousState() as Boolean {
         if (_state == BackState) {
-            _state = FrontState;
-            _textAreaText = _cardFront;
-            _textAreaIndex = 0;
+            setState(FrontState);
             return true;
         }
         return false;
     }
 
     function setDisplayText() as Void {
-        var textToDisplay;
-        if (_state == NoDataState) {
-            textToDisplay = Rez.Strings.NoData;
-        }
-        else {
-            textToDisplay = _textAreaText;
-        }
-
         if (_textAreaIndex == 0) {
-            _textArea.setText("\n" + textToDisplay);
+            _textArea.setText("\n" + _textAreaText);
         }
         else {
-            _textArea.setText(textToDisplay.substring(_textAreaIndex, null));
+            _textArea.setText(_textAreaText.substring(_textAreaIndex, null));
         }
     }
 
