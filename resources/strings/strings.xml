@@ -3,4 +3,5 @@
     <string id="Deck">Deck</string>
     <string id="CardFront">Card Front</string>
     <string id="CardBack">Card Back</string>
+    <string id="NoData">No data available</string>
 </strings>

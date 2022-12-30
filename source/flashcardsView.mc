@@ -1,5 +1,8 @@
 import Toybox.Graphics;
 import Toybox.WatchUi;
+import Toybox.Lang;
+import Toybox.Application.Properties;
+import Toybox.Math;
 
 class flashcardsView extends WatchUi.View {
 
@@ -17,7 +20,6 @@ class flashcardsView extends WatchUi.View {
         _height = dc.getHeight();
 
         _textArea = new WatchUi.TextArea({
-            :text=>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             :color=>Graphics.COLOR_WHITE,
             :font=>[Graphics.FONT_MEDIUM, Graphics.FONT_SMALL, Graphics.FONT_XTINY],
             :locX =>WatchUi.LAYOUT_HALIGN_CENTER,
@@ -31,6 +33,16 @@ class flashcardsView extends WatchUi.View {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
+        var deck = Properties.getValue("deck") as Array<Dictionary<String, String>>;
+        if (deck.size() == 0) {
+            _textArea.setText(Rez.Strings.NoData);
+        }
+        else {
+            var randomIndex = Math.rand() % deck.size();
+            var cardFront = deck[randomIndex]["front"];
+            var cardBack = deck[randomIndex]["back"];
+            _textArea.setText(cardFront);
+        }
     }
 
     // Update the view
