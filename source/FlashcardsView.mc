@@ -67,34 +67,24 @@ class FlashcardsView extends WatchUi.View {
         }
     }
 
-    function nextState() as Void {
-        switch (_state) {
-            case NoDataState:
-                break;
-            case FrontState:
-                _state = BackState;
-                _textAreaText = _cardBack;
-                _textAreaIndex = 0;
-                break;
-            case BackState:
-                break;
+    function nextState() as Boolean {
+        if (_state == FrontState) {
+            _state = BackState;
+            _textAreaText = _cardBack;
+            _textAreaIndex = 0;
+            return true;
         }
+        return false;
     }
 
-    function previousState() as Void {
-        switch (_state) {
-            case NoDataState:
-                WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-                break;
-            case FrontState:
-                WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-                break;
-            case BackState:
-                _state = FrontState;
-                _textAreaText = _cardFront;
-                _textAreaIndex = 0;
-                break;
+    function previousState() as Boolean {
+        if (_state == BackState) {
+            _state = FrontState;
+            _textAreaText = _cardFront;
+            _textAreaIndex = 0;
+            return true;
         }
+        return false;
     }
 
     function setDisplayText() as Void {

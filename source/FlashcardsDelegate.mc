@@ -21,15 +21,19 @@ class FlashcardsDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onSelect() {
-        _view.nextState();
-        WatchUi.requestUpdate();
-        return true;
+        if (_view.nextState()) {
+            WatchUi.requestUpdate();
+            return true;
+        }
+        return false;
     }
 
     function onBack() {
-        _view.previousState();
-        WatchUi.requestUpdate();
-        return true;
+        if (_view.previousState()) {
+            WatchUi.requestUpdate();
+            return true;
+        }
+        return false;
     }
 
 }
