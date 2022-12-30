@@ -2,7 +2,7 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class flashcardsApp extends Application.AppBase {
+class FlashcardsApp extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -18,13 +18,13 @@ class flashcardsApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        var view = new flashcardsView();
-        var delegate = new flashcardsDelegate(view);
+        var view = new FlashcardsView();
+        var delegate = new FlashcardsDelegate(view);
         return [ view, delegate ] as Array<Views or InputDelegates>;
     }
 
 }
 
-function getApp() as flashcardsApp {
-    return Application.getApp() as flashcardsApp;
+function getApp() as FlashcardsApp {
+    return Application.getApp() as FlashcardsApp;
 }

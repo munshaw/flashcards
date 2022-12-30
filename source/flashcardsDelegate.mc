@@ -1,8 +1,9 @@
 using Toybox.WatchUi;
 
-class flashcardsDelegate extends WatchUi.BehaviorDelegate {
+class FlashcardsDelegate extends WatchUi.BehaviorDelegate {
     private var _view;
     function initialize(view) {
+        BehaviorDelegate.initialize();
         _view = view;
     }
 }

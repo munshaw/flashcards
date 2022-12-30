@@ -4,7 +4,7 @@ import Toybox.Lang;
 import Toybox.Application.Properties;
 import Toybox.Math;
 
-class flashcardsView extends WatchUi.View {
+class FlashcardsView extends WatchUi.View {
     private var _textArea;
     private var _textAreaIndex;
 
