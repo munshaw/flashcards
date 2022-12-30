@@ -5,10 +5,14 @@ import Toybox.Application.Properties;
 import Toybox.Math;
 
 class flashcardsView extends WatchUi.View {
-
     private var _textArea;
-    private var _width;
-    private var _height;
+    private var _textAreaIndex;
+
+    private var _cardFront;
+    private var _cardBack;
+    private var _cardIndex;
+
+    private var _hasNoData;
 
     function initialize() {
         View.initialize();
@@ -16,16 +20,16 @@ class flashcardsView extends WatchUi.View {
 
     // Load your resources here
     function onLayout(dc as Dc) as Void {
-        _width = dc.getWidth();
-        _height = dc.getHeight();
+        var width = dc.getWidth();
+        var height = dc.getHeight();
 
         _textArea = new WatchUi.TextArea({
             :color=>Graphics.COLOR_WHITE,
             :font=>[Graphics.FONT_MEDIUM, Graphics.FONT_SMALL, Graphics.FONT_XTINY],
             :locX =>WatchUi.LAYOUT_HALIGN_CENTER,
             :locY=>WatchUi.LAYOUT_VALIGN_CENTER,
-            :width=>_width,
-            :height=>_height
+            :width=>width,
+            :height=>height
         });
     }
 
@@ -33,26 +37,33 @@ class flashcardsView extends WatchUi.View {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
+        loadRandomCard();
+    }
+
+    function loadRandomCard() as Void {
         var deck = Properties.getValue("deck") as Array<Dictionary<String, String>>;
-        if (deck.size() == 0) {
+        _hasNoData = deck.size() == 0;
+        if (!_hasNoData) {
+            _cardIndex = Math.rand() % deck.size();
+            _cardFront = deck[_cardIndex]["front"];
+            _cardBack = deck[_cardIndex]["back"];
+        }
+    }
+
+    function setDisplayText() as Void {
+        if (_hasNoData) {
             _textArea.setText(Rez.Strings.NoData);
         }
         else {
-            var randomIndex = Math.rand() % deck.size();
-            var cardFront = deck[randomIndex]["front"];
-            var cardBack = deck[randomIndex]["back"];
-            _textArea.setText(cardFront);
+            _textArea.setText(_cardFront);
         }
     }
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        // Call the parent onUpdate function to redraw the layout
-        View.onUpdate(dc);
-
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
-
+        setDisplayText();
         _textArea.draw(dc);
     }
 
