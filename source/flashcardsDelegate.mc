@@ -19,4 +19,17 @@ class FlashcardsDelegate extends WatchUi.BehaviorDelegate {
         WatchUi.requestUpdate();
         return true;
     }
+
+    function onSelect() {
+        _view.nextState();
+        WatchUi.requestUpdate();
+        return true;
+    }
+
+    function onBack() {
+        _view.previousState();
+        WatchUi.requestUpdate();
+        return true;
+    }
+
 }

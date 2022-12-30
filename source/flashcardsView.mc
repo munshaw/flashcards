@@ -7,14 +7,21 @@ import Toybox.Math;
 class FlashcardsView extends WatchUi.View {
     private const _TEXT_AREA_INCREMENT = 5;
 
+    enum {
+        NoDataState,
+        FrontState,
+        BackState,
+    }
+
     private var _textArea;
+    private var _textAreaText;
     private var _textAreaIndex;
 
     private var _cardFront;
     private var _cardBack;
     private var _cardIndex;
 
-    private var _hasNoData;
+    private var _state;
 
     function initialize() {
         View.initialize();
@@ -44,22 +51,59 @@ class FlashcardsView extends WatchUi.View {
 
     function loadRandomCard() as Void {
         var deck = Properties.getValue("deck") as Array<Dictionary<String, String>>;
-        _hasNoData = deck.size() == 0;
+
         _textAreaIndex = 0;
-        if (!_hasNoData) {
+        _state = FrontState;
+
+        if (deck.size() == 0) {
+            _state = NoDataState;
+        }
+        else {
+            _state = FrontState;
             _cardIndex = Math.rand() % deck.size();
             _cardFront = deck[_cardIndex]["front"];
             _cardBack = deck[_cardIndex]["back"];
+            _textAreaText = _cardFront;
+        }
+    }
+
+    function nextState() as Void {
+        switch (_state) {
+            case NoDataState:
+                break;
+            case FrontState:
+                _state = BackState;
+                _textAreaText = _cardBack;
+                _textAreaIndex = 0;
+                break;
+            case BackState:
+                break;
+        }
+    }
+
+    function previousState() as Void {
+        switch (_state) {
+            case NoDataState:
+                WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+                break;
+            case FrontState:
+                WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+                break;
+            case BackState:
+                _state = FrontState;
+                _textAreaText = _cardFront;
+                _textAreaIndex = 0;
+                break;
         }
     }
 
     function setDisplayText() as Void {
         var textToDisplay;
-        if (_hasNoData) {
+        if (_state == NoDataState) {
             textToDisplay = Rez.Strings.NoData;
         }
         else {
-            textToDisplay = _cardFront;
+            textToDisplay = _textAreaText;
         }
 
         if (_textAreaIndex == 0) {
@@ -72,7 +116,7 @@ class FlashcardsView extends WatchUi.View {
 
     function scrollDown() as Void {
         var newIndex = _textAreaIndex + _TEXT_AREA_INCREMENT;
-        if (newIndex < _cardFront.length()) {
+        if (newIndex < _textAreaText.length()) {
             _textAreaIndex = newIndex;
         }
     }
