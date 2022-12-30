@@ -64,8 +64,7 @@ class flashcardsView extends WatchUi.View {
             _textArea.setText("\n" + textToDisplay);
         }
         else {
-            var ss = textToDisplay.substring(_textAreaIndex, null);
-            _textArea.setText(ss);
+            _textArea.setText(textToDisplay.substring(_textAreaIndex, null));
         }
     }
 

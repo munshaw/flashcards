@@ -18,7 +18,9 @@ class flashcardsApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new flashcardsView() ] as Array<Views or InputDelegates>;
+        var view = new flashcardsView();
+        var delegate = new flashcardsDelegate(view);
+        return [ view, delegate ] as Array<Views or InputDelegates>;
     }
 
 }
